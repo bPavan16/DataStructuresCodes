@@ -1,0 +1,89 @@
+#include <stdio.h>
+
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define SIZE 5
+
+typedef struct Stack
+{
+    char data[SIZE];
+    int top;
+} Stack;
+
+void initStack(Stack *s)
+{
+    s->top = -1;
+}
+
+int isFull(Stack *s)
+{
+    return s->top == SIZE - 1;
+}
+
+void push(Stack *s, int ele)
+{
+    s->top++;
+    s->data[s->top] = ele;
+}
+
+int pop(Stack *s)
+{
+    int ele = s->data[s->top];
+    s->top--;
+    return ele;
+}
+
+int TopStack(Stack *s)
+{
+    return s->data[s->top];
+}
+
+int IsEmpty(Stack *s)
+{
+    return s->top == -1;
+}
+
+void DisplayStack(Stack *s)
+{
+    for (int i = s->top; i >= 0; i--)
+    {
+        printf("%c\n", s->data[i]);
+    }
+    printf("\n\n");
+}
+
+int reverseString(char str[])
+{
+    char key;
+    Stack s;
+    initStack(&s);
+
+    for (int i = 0; str[i]; i++)
+    {
+        push(&s, str[i]);
+    }
+
+    int j = 0;
+
+    while (!IsEmpty(&s))
+    {
+        str[j] = pop(&s);
+        j++;
+    }
+
+    return 1;
+}
+
+int main()
+{
+
+    char str[50];
+    printf("Enter the value of the string that is to be reversed : ");
+    scanf("%s", str);
+
+    reverseString(str);
+
+    printf("The reveresed String is %s", str);
+}

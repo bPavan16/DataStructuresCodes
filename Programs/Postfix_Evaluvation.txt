@@ -1,0 +1,114 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+
+
+#define SIZE 50
+
+typedef struct stack
+{
+    int array[SIZE];
+    int top;
+}Stack;
+
+void initStack(Stack *s)
+{
+    s->top= -1;
+}
+
+void push(Stack *s,int n)
+{
+    s->top++;
+    s->array[s->top] = n;
+}
+
+int pop(Stack *s)
+{
+    int a= s->array[s->top];
+    s->top--;
+    return a;
+}
+
+int isFUll(Stack *s)
+{
+    return s->top==(SIZE-1);
+}
+
+int isEmpty(Stack *s)
+{
+    return s->top==-1;
+}
+
+int postfixEvaluvate(char postfix[])
+{
+    Stack s;
+    initStack(&s);
+    int A;
+    int B;
+    int result=0;
+    int m;
+    
+    for(int i=0;postfix[i];i++)
+    {
+        if(isalnum(postfix[i]))
+        {
+            m= postfix[i]-'0';
+            push(&s,m);
+        }
+        
+        else
+        {
+            B=pop(&s);
+            A=pop(&s);
+            
+            switch(postfix[i])
+            {
+                case '+':
+                    result=A+B;
+                    break;
+                    
+                case '-':
+                    result=A-B;
+                    break;
+                    
+                case '*':
+                    result=A*B;
+                    break;
+                    
+                case '/':
+                    result=A/B;
+                    break;
+                    
+                case '^':
+                    result=pow(B, A);
+                    break;
+            }
+            
+            push(&s,result);
+        }
+    }
+    
+    result =pop(&s);
+    return result;
+}
+
+int main()
+{
+    
+    char postfix[50];
+    scanf("%s",postfix);
+    
+    int ans=postfixEvaluvate(postfix);
+    
+    // Pavan is wonderful thankyou
+    
+    // printf("%d",ans);
+    
+    printf("Given postfix Expression: %s\n",postfix);
+    printf("Result after Evaluation: %d",ans);
+
+    return 0;
+}
